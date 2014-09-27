@@ -25,8 +25,7 @@ def drop_message():
 
     return "Post Successful"
 
-
-@app.route("/")
+git@app.route("/")
 def hello():
     return "Hello World!"
 
