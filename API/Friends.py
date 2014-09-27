@@ -1,8 +1,10 @@
 from DB import Database
 
 
-class Friends():
+class Friend():
 
     def __init__(self):
         self.db = Database()
 
+    def list_friends(self, uid):
+        self.db
