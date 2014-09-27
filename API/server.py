@@ -19,15 +19,7 @@ def validate_post_request(args):
 
 
 
-'''
-Endpoint for adding a new bottle to the database. Requires 5 arguments
-x: the x coordinate where the bottle is dropped (float)
-y: the y coordinate where the bottle is dropped (float)
-message: the content of the message  (plain text, or matrix representation of picture/video)
-userId: the unique user id of the user who dropped the message (int)
-viewable_by: a string containing who can view the message (friend or public)
 
-'''
 
 @app.route("/login", methods=['POST'])
 def login():
@@ -43,7 +35,27 @@ def add_user():
     users.add_user(uid, username)
     return "user added"
 
+@app.route("/addFriend", methods=['POST'])
+def add_friend():
+    uid = int(request.form.get('uid'))
+    friend_name = request.form.get('friend')
+    friends.add_friend(uid, friend_name)
+    return "friend added successfully"
 
+@app.route("/listFriends", methods=['POST'])
+def list_friends():
+    uid = int(request.form.get('uid'))
+    return str(friends.list_friends(uid))
+
+'''
+Endpoint for adding a new bottle to the database. Requires 5 arguments
+x: the x coordinate where the bottle is dropped (float)
+y: the y coordinate where the bottle is dropped (float)
+message: the content of the message  (plain text, or matrix representation of picture/video)
+userId: the unique user id of the user who dropped the message (int)
+viewable_by: a string containing who can view the message (friend or public)
+
+'''
 
 @app.route("/dropMessage", methods=['POST'])
 def drop_message():
