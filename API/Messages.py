@@ -16,3 +16,9 @@ class Message():
                         }
         self.db.insert(message_entry)
         self.db.get_entries()
+
+    def pickup_message(self, user_x, user_y, user_id):
+
+        p = self.db.collection.find({"coordinates":{({user_x},{user_y})}})
+        print p
+

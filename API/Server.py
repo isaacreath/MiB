@@ -38,9 +38,22 @@ def drop_message():
     args = [message_x, message_y, message, user_id, viewable_by]
     if validate_post_request(args):
         messages.drop_message(message_x, message_y, message, user_id, viewable_by)
-        return "Post Successful"
+        return "Post Successful\n"
     else:
-        return "Invalid argument matching", 400
+        return "Invalid argument matching\n", 400
+
+@app.route("/pickupMessage", methods=['POST'])
+def pickup_message():
+    user_x = request.form.get('x')
+    user_y = request.form.get('y')
+    user_id = request.form.get('userId')
+    args = [user_x, user_y, user_id]
+    if validate_post_request(args):
+        messages.pickup_message(user_x, user_y, user_id)
+        return "Post Successful\n"
+    else:
+        return "Invalid argument matching\n", 400
+
 
 @app.route("/")
 def hello():
