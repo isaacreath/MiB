@@ -23,13 +23,28 @@ class Database():
             print p
 
     def add_user(self, user):
+        uid = user["userid"]
         self.user_collection.insert(user)
+        self.friend_collection.insert({"userid": uid, "friend_list": []})
 
-    def add_friend(self, friend):
-        self.friends_posts.insert(friend)
+    def add_friend(self, uid, friend):
+        print "what"
+        print self.friend_collection.find({"userid": uid})[0]["friend_list"]
+        friend_list = self.friend_collection.find({"userid": uid})[0]["friend_list"]
+        friend_list.append(friend)
+        self.friend_collection.update(
+            {"userid": uid},
+            {
+                "userid": uid,
+                "friend_list": friend_list
+            }
+        )
+        print self.friend_collection.find({"userid": uid})[0]["friend_list"]
+        return "friend added successfully"
 
-    def list_friend(self, uid):
-        return self.friend_collection.find({"userid": uid})
+
+    def list_friends(self, uid):
+        return self.friend_collection.find({"userid": uid})[0]["friend_list"]
 
     def find_user(self, uid):
         try:

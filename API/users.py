@@ -14,5 +14,6 @@ class User():
             return response["username"]
 
     def add_user(self, uid, username):
+        print uid
         self.db.add_user({"userid": uid, "username": username})
         return "user added"
