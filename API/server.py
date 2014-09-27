@@ -67,7 +67,7 @@ def pickup_message():
     args = [user_x, user_y, user_id]
     if validate_post_request(args):
         messages.pickup_message(user_x, user_y, user_id)
-        return "Post Successful\n"
+        return "Pickup Successful\n"
     else:
         return "Invalid argument matching\n", 400
 

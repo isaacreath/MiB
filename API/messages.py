@@ -18,7 +18,9 @@ class Message():
         self.db.get_entries()
 
     def pickup_message(self, user_x, user_y, user_id):
-
-        p = self.db.collection.find({"coordinates":{({user_x},{user_y})}})
+        #p = self.db.posts.find({"coordinates":{(user_x,user_y)},"userid":user_id})
+        print "ASDFADGADSF"
+        p = self.db.posts.find()
         print p
+        print "fsadfasdf"
 
