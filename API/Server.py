@@ -1,15 +1,16 @@
 from flask import Flask
 from flask import request
 from DB import Database
-from Messages import Message
-from Friends import Friend
+from messages import Message
+from friends import Friend
+from users import User
 
 #setup the app and the db
 app = Flask(__name__)
 db = Database()
 messages = Message()
 friends = Friend()
-
+users = User()
 def validate_post_request(args):
     for arg in args:
         if arg is None:
@@ -27,6 +28,22 @@ userId: the unique user id of the user who dropped the message (int)
 viewable_by: a string containing who can view the message (friend or public)
 
 '''
+
+@app.route("/login", methods=['POST'])
+def login():
+    uid = int(request.form.get('uid'))
+    print uid
+    return users.login(uid)
+
+
+@app.route("/addUser", methods=['POST'])
+def add_user():
+    username = request.form.get('username')
+    uid = int(request.form.get('uid'))
+    users.add_user(uid, username)
+    return "user added"
+
+
 
 @app.route("/dropMessage", methods=['POST'])
 def drop_message():
