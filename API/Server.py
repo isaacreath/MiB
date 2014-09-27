@@ -1,14 +1,9 @@
 from flask import Flask
-from pymongo import MongoClient
 from flask import request
-
+from DB import Database
 #setup the app and the db
 app = Flask(__name__)
-client = MongoClient()
-db = client['messages']
-collection = db['collection']
-posts = db.posts
-
+db = Database()
 
 
 def validate_post_request(args):
@@ -36,8 +31,7 @@ def drop_message():
     message = request.form.get('message')
     user_id = request.form.get('userId')
     viewable_by = request.form.get('viewableBy')
-
-    args = [message_x, message_y, message, user_id, visability]
+    args = [message_x, message_y, message, user_id, viewable_by]
     if validate_post_request(args):
         message_coordinates = (message_x, message_y)
         print "(" + str(message_coordinates) + ") " + str(message)
@@ -46,10 +40,8 @@ def drop_message():
                          "userid":user_id,
                          "viewable_by":viewable_by
                         }
-        posts.insert(message_entry)
-        for p in posts.find():
-            print p
-
+        db.insert(message_entry)
+        db.get_entries()
         return "Post Successful"
     else:
         return "Invalid argument matching", 400
