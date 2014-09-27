@@ -1,10 +1,14 @@
 from flask import Flask
 from flask import request
 from DB import Database
+from Messages import Message
+from Friends import Friend
+
 #setup the app and the db
 app = Flask(__name__)
 db = Database()
-
+messages = Message()
+friends = Friend()
 
 def validate_post_request(args):
     for arg in args:
@@ -33,15 +37,7 @@ def drop_message():
     viewable_by = request.form.get('viewableBy')
     args = [message_x, message_y, message, user_id, viewable_by]
     if validate_post_request(args):
-        message_coordinates = (message_x, message_y)
-        print "(" + str(message_coordinates) + ") " + str(message)
-        message_entry = {"coordinates":message_coordinates,
-                         "message":message,
-                         "userid":user_id,
-                         "viewable_by":viewable_by
-                        }
-        db.insert(message_entry)
-        db.get_entries()
+        messages.drop_message(message_x, message_y, message, user_id, viewable_by)
         return "Post Successful"
     else:
         return "Invalid argument matching", 400
