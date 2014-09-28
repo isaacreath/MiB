@@ -1,15 +1,19 @@
 from pymongo import MongoClient
+from urlparse import urlparse
+import os
+
 
 class Database():
 
     def __init__(self):
-        self.client = MongoClient()
-        self.db = self.client['messages']
+        self.MONGO_URL = os.environ.get('MONGOHQ_URL')
+        self.client = MongoClient(self.MONGO_URL)
+        self.db = self.client[urlparse(self.MONGO_URL).path[1:]]
         self.friends_database = self.client['friends']
         self.user_database = self.client['users']
         self.collection = self.db['collection']
-        self.friend_collection = self.friends_database['collection']
-        self.user_collection = self.user_database['collection']
+        self.friend_collection = self.db['friend_collection']
+        self.user_collection = self.db['user_collection']
         self.posts = self.db.posts
         self.user_posts = self.user_database.posts
         self.friends_posts = self.friends_database.posts
@@ -42,7 +46,6 @@ class Database():
             return "friend added successfully"
         else:
             return "friend is already added"
-
 
     def list_friends(self, uid):
         return self.friend_collection.find({"userid": uid})[0]["friend_list"]
