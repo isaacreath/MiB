@@ -59,8 +59,8 @@ viewable_by: a string containing who can view the message (friend or public)
 
 @app.route("/dropMessage", methods=['POST'])
 def drop_message():
-    message_x = request.form.get('x')
-    message_y = request.form.get('y')
+    message_x = request.form.get('x', type=float)
+    message_y = request.form.get('y', type=float)
     message = request.form.get('message')
     user_id = request.form.get('userId')
     viewable_by = request.form.get('viewableBy')
@@ -74,12 +74,14 @@ def drop_message():
 @app.route("/pickupMessage", methods=['POST'])
 def pickup_message():
     user_x = request.form.get('x')
-    user_y = request.form.get('y')
+    user_y = request.form.  get('y')
     user_id = request.form.get('userId')
     args = [user_x, user_y, user_id]
     if validate_post_request(args):
-        messages.pickup_message(user_x, user_y, user_id)
-        return "Pickup Successful\n"
+        print "Pickup successful\n"
+        temp = messages.pickup_message(user_x, user_y, user_id)
+        print str(temp),'\n'
+        return str(temp[0])
     else:
         return "Invalid argument matching\n", 400
 

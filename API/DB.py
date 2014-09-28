@@ -17,6 +17,9 @@ class Database():
     def insert(self, entry):
         self.posts.insert(entry)
 
+    def delete_posts(self, entry):
+        pass
+
     def get_entries(self):
         for p in self.posts.find():
             print p
