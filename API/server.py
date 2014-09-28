@@ -17,15 +17,12 @@ def validate_post_request(args):
             return False
     return True
 
-
-
-
-
 @app.route("/login", methods=['POST'])
 def login():
     uid = int(request.form.get('uid'))
+    username = request.form.get('username')
     print uid
-    return users.login(uid)
+    return users.login(uid, username)
 
 
 @app.route("/addUser", methods=['POST'])
